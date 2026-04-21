@@ -45,8 +45,6 @@ The **PSX Squeeze Ensemble** detects periods of extreme price compression (squee
 | **Profit Factor** | **2.1+** | Favorable avg win/avg loss ratio |
 | **Avg Trade Duration** | 15-30 bars | Medium-term breakout thesis |
 
-**Tested on**: OGDC, PPL, PSO, HUBC, ENGRO, LUCK, MCB, UBL, HBL, MARI, EFERT, SYS, TRG
-
 ---
 
 ## 🏗️ Architecture
