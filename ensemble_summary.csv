@@ -1,4 +1,0 @@
-symbol,signal,total_trades,win_rate,profit_factor,max_drawdown_pct,cagr_pct,final_capital
-NCPL,sig_base,4,50.0,1.65,-60.43,5.41,16330653.2
-NCPL,sig_rules,2,100.0,999.0,0.0,19.97,54478565.35
-NCPL,sig_ensemble,2,100.0,999.0,0.0,19.97,54478565.35
