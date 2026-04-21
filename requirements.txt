@@ -1,0 +1,11 @@
+numpy>=1.23.0
+pandas>=1.5.0
+requests>=2.28.0
+xgboost>=1.7.0
+hmmlearn>=0.3.0
+scikit-learn>=1.2.0
+yfinance>=0.2.0
+
+# Optional — required only for strategies/optimization.py
+backtesting>=0.3.3
+pandas-ta>=0.3.14b
