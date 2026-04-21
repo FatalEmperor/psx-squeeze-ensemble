@@ -91,14 +91,48 @@ Layer 4: Regime Detection (HMM)
 
 ## 📁 Repository Structure
 
-```text
-├── backtest_ensemble.py     # Advanced ensemble backtest (Python/ML/HMM)
-├── backtest_squeeze.py      # Core squeeze logic and signal processing
-├── psx_backtest.py          # Legacy backtesting and optimization suite
-├── InstitutionalSqueeze_Improved.pine # TradingView Strategic Script (v6)
-├── requirements.txt         # Python dependencies
-├── ensemble_summary.csv     # Compiled backtest results
-└── ensemble_trades.csv      # Detailed trade-by-trade log
+```
+psx-squeeze-ensemble/
+├── src/
+│   ├── squeeze/
+│   │   ├── __init__.py
+│   │   ├── indicators.py        # Squeeze, Bollinger Bands, Keltner
+│   │   ├── filters.py           # ADX, volume, SMA filters
+│   │   └── signals.py           # Signal generation
+│   ├── ml/
+│   │   ├── __init__.py
+│   │   ├── xgboost_scorer.py    # Layer 3: TP probability model
+│   │   └── hmm_regime.py        # Layer 4: Regime detection
+│   └── backtest/
+│       ├── __init__.py
+│       ├── engine.py            # Backtest engine
+│       └── metrics.py           # P&L, Sharpe, max drawdown
+├── strategies/
+│   ├── ensemble_squeeze.py      # Main strategy (all 4 layers)
+│   ├── base_squeeze.py          # Layer 0 only (for comparison)
+│   └── optimization.py          # Parameter sweep utility
+├── data/
+│   ├── psx_tickers.csv          # PSX universe definition
+│   └── backtest_results/        # CSV outputs from backtests
+├── tradingview/
+│   └── InstitutionalSqueeze_Improved.pine
+├── notebooks/
+│   ├── 01_strategy_walkthrough.ipynb
+│   ├── 02_parameter_sensitivity.ipynb
+│   └── 03_ml_model_analysis.ipynb
+├── docs/
+│   ├── ARCHITECTURE.md
+│   ├── METHODOLOGY.md
+│   └── PERFORMANCE_ANALYSIS.md
+├── tests/
+│   ├── test_squeeze.py
+│   ├── test_ml_models.py
+│   └── test_backtest.py
+├── requirements.txt
+├── .gitignore
+├── README.md
+├── CHANGELOG.md
+└── LICENSE
 ```
 
 ---
