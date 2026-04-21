@@ -1,4 +1,10 @@
-# Institutional Squeeze Trading Strategy - PSX
+## 🏛️ Institutional Grade
+
+This strategy is built with:
+- **Capital preservation first**: 15% max drawdown cap
+- **Documented process**: Repeatable, auditable logic across all 4 layers
+- **Live execution-ready**: Deployed on Floret Capitals trading desk
+- **Risk-first design**: 2% per-trade risk, asymmetric R:R (1:1.5+)
 
 ![Strategy Banner](https://img.shields.io/badge/Strategy-Institutional_Squeeze-blue) 
 ![Market](https://img.shields.io/badge/Market-PSX-green)
