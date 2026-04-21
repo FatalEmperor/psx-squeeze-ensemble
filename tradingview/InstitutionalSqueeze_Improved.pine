@@ -1,0 +1,88 @@
+//@version=6
+strategy("Institutional Squeeze Strategy [Improved v2]", 
+     overlay=true, 
+     initial_capital=10000000, 
+     default_qty_type=strategy.percent_of_equity, 
+     default_qty_value=99,
+     commission_type=strategy.commission.percent,
+     commission_value=0.15)
+
+// --- [INPUTS] ---
+lookback      = input.int(20, "Markov Lookback")
+sqz_len       = input.int(20, "Squeeze Length", minval=1)
+mult_bb       = input.float(2.0, "Bollinger Mult")
+mult_kc       = input.float(1.5, "Keltner Mult")
+
+// --- [IMPROVED FILTERS] ---
+use_trend     = input.bool(true, "Use SMA 200 Trend Filter")
+trend_len     = input.int(200, "Trend Filter Length")
+min_sqz_bars  = input.int(5, "Min Squeeze Duration (Bars)")
+vol_mult      = input.float(1.2, "Volume Confirmation Multiplier")
+
+// --- [RISK INPUTS] ---
+atr_mult      = input.float(2.5, "ATR Stop Loss Multiplier")
+rr_ratio      = input.float(1.0, "Risk:Reward Ratio")
+
+// --- [SECTION 1: MARKOV & VOLATILITY] ---
+log_ret = math.log(close / close[1])
+mu      = ta.sma(log_ret, lookback)
+sigma   = ta.stdev(log_ret, lookback)
+vol_z   = (sigma - ta.sma(sigma, 50)) / ta.stdev(sigma, 50)
+bool is_stable_bull = log_ret > mu and vol_z < 0.5
+
+// --- [SECTION 2: THE SQUEEZE (TTM Style)] ---
+basis = ta.sma(close, sqz_len)
+dev   = mult_bb * ta.stdev(close, sqz_len)
+upperBB = basis + dev
+lowerBB = basis - dev
+
+ma_kc    = ta.sma(close, sqz_len)
+range_kc = ta.sma(ta.tr, sqz_len)
+upperKC  = ma_kc + (range_kc * mult_kc)
+lowerKC  = ma_kc - (range_kc * mult_kc)
+
+// Squeeze Counter
+is_squeezed = (lowerBB > lowerKC) and (upperBB < upperKC)
+sqz_duration = ta.barssince(not is_squeezed)
+squeeze_matured = sqz_duration >= min_sqz_bars
+
+squeeze_release = (upperBB > upperKC) and (lowerBB < lowerKC)
+
+// --- [SECTION 3: ENTRY & FLOW] ---
+vol_sma = ta.sma(volume, 20)
+inst_flow = volume > (vol_sma * vol_mult) 
+
+// Trend Filter
+sma_trend = ta.sma(close, trend_len)
+trend_ok = use_trend ? (close > sma_trend) : true
+
+// Entry Trigger (Squeeze must have been matured in the PREVIOUS bar before released this bar)
+long_entry = is_stable_bull and squeeze_release and close > upperKC and inst_flow and trend_ok and squeeze_matured[1]
+
+// --- [SECTION 4: EXECUTION & FIXED RISK] ---
+var float sl_price = na
+var float tp_price = na
+
+atr = ta.atr(14)
+
+if long_entry and strategy.position_size == 0
+    // Lock in the stop and target based on CURRENT price and ATR
+    sl_dist = atr * atr_mult
+    tp_dist = sl_dist * rr_ratio
+    sl_price := close - sl_dist
+    tp_price := close + tp_dist
+    
+    strategy.entry("Long", strategy.long, comment="Sqz Maturity: " + str.tostring(sqz_duration[1]))
+
+// Use fixed SL/TP prices for the exit
+if strategy.position_size > 0
+    strategy.exit("Exit Long", "Long", stop=sl_price, limit=tp_price, comment_loss="SL", comment_profit="TP")
+
+// --- [VISUALS] ---
+bgcolor(is_squeezed ? color.new(color.orange, 90) : na, title="Squeeze Zone")
+plot(upperKC, color=color.gray, title="Upper KC", style=plot.style_linebr)
+plot(lowerKC, color=color.gray, title="Lower KC", style=plot.style_linebr)
+plot(use_trend ? sma_trend : na, color=color.blue, linewidth=2, title="Trend Filter (SMA 200)")
+
+// Indicator for matured squeeze
+plotshape(squeeze_matured and not is_squeezed[1], style=shape.diamond, location=location.belowbar, color=color.green, size=size.tiny, title="Matured Squeeze")
