@@ -142,7 +142,7 @@ psx-squeeze-ensemble/
 ### **1. Install**
 
 ```bash
-git clone https://github.com/haseeb-zahid/psx-squeeze-ensemble.git
+git clone https://github.com/fatalemperor/psx-squeeze-ensemble.git
 cd psx-squeeze-ensemble
 pip install -r requirements.txt
 ```
