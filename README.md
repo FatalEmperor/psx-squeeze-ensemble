@@ -350,7 +350,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 For institutional inquiries, strategy questions, or live execution:
 
-- **Email:** haseeb@floretcapitals.com  
+- **Email:** zahidhaseeb800@gmail.com  
 - **LinkedIn:** [Haseeb Zahid](https://linkedin.com/in/your-profile)  
 - **GitHub Issues:** For bug reports or feature requests
 
@@ -359,7 +359,5 @@ For institutional inquiries, strategy questions, or live execution:
 <div align="center">
 
 **Built with capital preservation first. Process > Outcome.**
-
-[⬆ back to top](#-psx-squeeze-ensemble)
 
 </div>
