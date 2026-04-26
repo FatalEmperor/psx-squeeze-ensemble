@@ -351,7 +351,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 For institutional inquiries, strategy questions, or live execution:
 
 - **Email:** zahidhaseeb800@gmail.com  
-- **LinkedIn:** [Haseeb Zahid](https://linkedin.com/in/your-profile)  
+- **LinkedIn:** [Haseeb Zahid]([https://www.linkedin.com/in/1tshaseeb/])  
 - **GitHub Issues:** For bug reports or feature requests
 
 ---
